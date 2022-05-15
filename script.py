@@ -4,13 +4,29 @@ import random
 
 class snake(object):
     def __init__(self):
-        pass
+        self.length = 1
+        self.positions = [((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2))]
+        self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
+        self.color = (17, 24, 47)
+
     def get_head_position(self):
-        pass
+        return self.positions[0]
+
     def turn(self, point):
-        pass
+        if self.length > 1 and (point[0] * -1, point[1] * -1) == self.direction:
+            return
+        else:
+            self.direction = point
     def move(self):
-        pass
+        cur = self.get_head_position()
+        x, y = self.direction
+        new = (((cur[0] + (x*GRIDSIZE)) % SCREEN_WIDTH), (cur[1] +(y*GRIDSIZE)) % SCREEN_HEIGHT)
+        if len(self.positions) > 2 and new in self.positions[2:]:
+            self.reset()
+        else:
+            self.positions.insert(0, new)
+            if len(self.positions) > self.length:
+                self.positions.pop()
     def reset(self):
         pass
     def draw(self, surface):
